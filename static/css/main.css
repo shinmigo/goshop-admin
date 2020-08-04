@@ -1,0 +1,180 @@
+body, html {
+    background: #f9f9f9 !important;
+}
+
+/************************
+        其它(零星)start( 默认:2，xs:4，sm:8，df:16，lg:32，xl:64)
+**************************/
+.response { width: 100%; }
+/* 椭圆 */
+.round { border-radius: 500px;overflow: hidden; }
+/* 圆角 */
+.radius-xs { border-radius: 4px;overflow: hidden; }
+.radius-sm { border-radius: 8px;overflow: hidden; }
+/* 手型 */
+.cursor{ cursor: pointer; }
+/* 过渡 */
+.transition-all{ transition: all .3s; }
+/* 去除阴影 */
+.box-shadow-none{ box-shadow: none !important; }
+/* 背景图片 */
+.bg-img {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/* 元素透明度 */
+.bg_opacity5{ opacity:.5 }
+/* 按钮加载中。。。 */
+.bg-loading .ant-spin-dot{
+    margin-right: 4px;
+    font-size: 14px;
+}
+.bg-loading .ant-spin-dot-item{
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
+}
+
+/************************
+        其它(零星)end
+**************************/
+
+/*==================================
+        文本(字体)start
+========================================*/
+/* 字母(大小写) */
+.text-Abc { text-transform: Capitalize; }
+.text-ABC { text-transform: Uppercase; }
+.text-abc { text-transform: Lowercase; }
+/* 换行隐藏、粗体、行高、间距(默认:1，xs:2，sm:4，df:6，lg:8，xl:10) */
+.text-over { overflow: hidden; }
+.text-cut { white-space: nowrap;word-break: keep-all;text-overflow: ellipsis;overflow: hidden; }
+.text-bold { font-weight: bold; }
+.text-content { line-height: 1.6; }
+.text-letter { letter-spacing: 1px; }
+/* 文字排序(左中右) */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+/* 首字母(缩进)(默认:8，xs:16，sm:32) */
+.text-indent { text-indent: 8px; }
+.text-indent-xs { text-indent: 16px; }
+.text-indent-sm { text-indent: 32px; }
+/* 价格符 */
+.text-price::before { content: "¥";margin-right: 2px;font-size: 80%; }
+/* 字体颜色 */
+.text-red{ color: #ff0000;}
+.text-blue{ color: #1890ff; }
+.text-black{ color: rgba(0, 0, 0, 0.65); }
+/* 隐藏 */
+.text-hide{ display: none; }
+/*==================================
+        文本(字体)end
+========================================*/
+
+/*==================================
+        内外边距start(默认:2，xs:4，sm:8，df:16，lg:32，xl:64)
+========================================*/
+.margin-0 { margin: 0; }
+.margin { margin: 2px; }
+.margin-xs { margin: 4px; }
+.margin-sm { margin: 8px; }
+.margin-df { margin: 16px; }
+.margin-lg { margin: 32px; }
+.margin-xl { margin: 64px; }
+
+.margin-top { margin-top: 2px; }
+.margin-top-xs { margin-top: 4px; }
+.margin-top-sm { margin-top: 8px; }
+.margin-top-df { margin-top: 16px; }
+.margin-top-lg { margin-top: 32px; }
+.margin-top-xl { margin-top: 64px;}
+
+.margin-right { margin-right: 2px; }
+.margin-right-xs { margin-right: 4px; }
+.margin-right-sm { margin-right: 8px; }
+.margin-right-df { margin-right: 16px; }
+.margin-right-lg { margin-right: 32px; }
+.margin-right-xl { margin-right: 64px; }
+
+.margin-bottom { margin-bottom: 2px; }
+.margin-bottom-xs { margin-bottom: 4px; }
+.margin-bottom-sm { margin-bottom: 8px; }
+.margin-bottom-df { margin-bottom: 16px; }
+.margin-bottom-lg { margin-bottom: 32px; }
+.margin-bottom-xl { margin-bottom: 64px; }
+
+.margin-left { margin-left: 2px; }
+.margin-left-xs { margin-left: 4px; }
+.margin-left-sm { margin-left: 8px; }
+.margin-left-df { margin-left: 16px; }
+.margin-left-lg { margin-left: 32px; }
+.margin-left-xl { margin-left: 64px; }
+/*左右外边距*/
+.margin-lr { margin-left: 2px; margin-right: 2px; }
+.margin-lr-xs { margin-left: 4px; margin-right: 4px; }
+.margin-lr-sm { margin-left: 8px; margin-right: 8px; }
+.margin-lr-df { margin-left: 16px; margin-right: 16px; }
+.margin-lr-lg { margin-left: 32px; margin-right: 32px; }
+.margin-lr-xl { margin-left: 64px; margin-right: 64px; }
+/*上下外边距*/
+.margin-tb { margin-top: 2px; margin-bottom: 2px; }
+.margin-tb-xs { margin-top: 4px; margin-bottom: 4px; }
+.margin-tb-sm { margin-top: 8px; margin-bottom: 8px; }
+.margin-tb-df { margin-top: 16px; margin-bottom: 16px; }
+.margin-tb-lg { margin-top: 32px; margin-bottom: 32px; }
+.margin-tb-xl { margin-top: 64px; margin-bottom: 64px; }
+
+.padding-0 { padding: 0; }
+.padding { padding: 2px; }
+.padding-xs { padding: 4px; }
+.padding-sm { padding: 8px; }
+.padding-df { padding: 16px; }
+.padding-lg { padding: 32px; }
+.padding-xl { padding: 64px; }
+
+.padding-top { padding-top: 2px; }
+.padding-top-xs { padding-top: 4px; }
+.padding-top-sm { padding-top: 8px; }
+.padding-top-df { padding-top: 16px; }
+.padding-top-lg { padding-top: 32px; }
+.padding-top-xl { padding-top: 64px; }
+
+.padding-right { padding-right: 2px; }
+.padding-right-xs { padding-right: 4px; }
+.padding-right-sm { padding-right: 8px; }
+.padding-right-df { padding-right: 16px; }
+.padding-right-lg { padding-right: 32px; }
+.padding-right-xl { padding-right: 64px; }
+
+.padding-bottom { padding-bottom: 2px; }
+.padding-bottom-xs { padding-bottom: 4px; }
+.padding-bottom-sm { padding-bottom: 8px; }
+.padding-bottom-df { padding-bottom: 16px; }
+.padding-bottom-lg { padding-bottom: 32px; }
+.padding-bottom-xl { padding-bottom: 64px; }
+
+.padding-left { padding-left: 2px; }
+.padding-left-xs { padding-left: 4px; }
+.padding-left-sm { padding-left: 8px; }
+.padding-left-df { padding-left: 16px; }
+.padding-left-lg { padding-left: 32px; }
+.padding-left-xl { padding-left: 64px; }
+/*左右内边距*/
+.padding-lr { padding-left: 2px; padding-right: 2px; }
+.padding-lr-xs { padding-left: 4px; padding-right: 4px; }
+.padding-lr-sm { padding-left: 8px; padding-right: 8px; }
+.padding-lr-df { padding-left: 16px; padding-right: 16px; }
+.padding-lr-lg { padding-left: 32px; padding-right: 32px; }
+.padding-lr-xl { padding-left: 64px; padding-right: 64px; }
+/*上下内边距*/
+.padding-tb { padding-top: 2px; padding-bottom: 2px; }
+.padding-tb-xs { padding-top: 4px; padding-bottom: 4px; }
+.padding-tb-sm { padding-top: 8px; padding-bottom: 8px; }
+.padding-tb-df { padding-top: 16px; padding-bottom: 16px; }
+.padding-tb-lg { padding-top: 32px; padding-bottom: 32px; }
+.padding-tb-xl { padding-top: 64px; padding-bottom: 64px; }
+/******************************
+        内外边距end
+************************************/

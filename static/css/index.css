@@ -1,0 +1,397 @@
+
+/* 导航样式--start */
+.ant-menu-vertical .ant-menu-item, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-right .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title{
+    font-size: 16px;
+}
+/* 导航样式--end */
+
+/* table列表页-搜索--start */
+.fewSearch {
+    width: 100%;
+    display: inline-block;
+}
+.fewSearch > div {
+    float: left;
+}
+.fewSearch .search-input {
+    min-height: 33px;
+}
+.fewSearch .search-input .text-row {
+    width: 300px;
+    display: grid;
+    line-height: 2.4;
+    grid-template-columns: 74px auto;
+    column-gap: 6px;
+    float: left;
+}
+.fewSearch .search-input .text-row label {
+    text-align: right;
+}
+/* table列表页-搜索--end */
+
+/* table列表-选中数据数量--start */
+.pitchNumber{
+    padding-left: 12px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #e6f7ff;
+    border: 1px solid #afe3fe;
+}
+.pitchNumber span{
+    padding: 0px 6px;
+    color: #108ee9;
+}
+.pitchNumber span:nth-child(1){
+    font-family: SimSun,'Avenir', Helvetica, Arial, sans-serif;
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    color: #ffffff;
+    line-height: 18px;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: #108ee9;
+}
+.pitchNumber span:nth-child(3){
+    margin-left: 10px;
+    cursor: pointer;
+}
+/* table列表-选中数据数量--end */
+
+/* table列表样式--start */
+.table .ant-table-thead tr th{
+    border-top: 1px solid #e8e8e8;
+}
+.table .ant-table-thead tr th:nth-child(1){
+    border-left: 1px solid #e8e8e8;
+}
+.table .ant-table-thead tr th:nth-last-child(1){
+    border-right: 1px solid #e8e8e8;
+}
+/** 操作-按钮间隔 */
+.table .action>span,.table .action>a{
+    padding: 0 2px;
+}
+/** 图片宽高 */
+.table .img{
+    width: 42px;
+    height: 42px;
+}
+/** table  */
+.table .ant-table-tbody>tr>td{
+    padding: 14px 12px !important;
+}
+/** 商品分类-图片内边距 */
+.classify-padding .ant-table-tbody>tr>td:nth-child(5){
+    padding: 8px 12px !important;
+}
+/** 商品上下架--样式*/
+.table .status span{
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+}
+.table .status .bg-gray{
+    background-color: #c5c5c5;
+}
+.table .status .bg-green{
+    background-color: #4caf50;
+}
+/* table列表样式--end */
+
+/* table不分页样式--start */
+.noTable{
+    margin: 20px auto;
+    width: 80%;
+    border: 1px solid #e8e8e8;
+}
+.ant-table-tbody > tr > .ant-table-row-cell-ellipsis .tableGird{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,120px);
+    gap: 6px 8px;
+}
+/* table不分页样式--end */
+
+/* 分页样式--start */
+.ant-pagination{
+    width: 100%;
+    text-align: right;
+}
+.ant-pagination>li:nth-child(1){
+    float: left;
+    text-indent: 10px;
+}
+.ant-pagination .ant-select-selection-selected-value{
+    margin-right: 6px;
+}
+.ant-pagination .ant-select-dropdown-menu-item{
+    text-align: left;
+}
+
+/** 图片库-分页 */
+.imagePagin>li:nth-child(1){
+    float: none;
+    text-indent: 0;
+}
+/* 分页样式--end */
+
+/* 弹出框-样式--start */
+/** 底部隐藏和主体加滚动条 */
+.model .ant-modal-footer{
+    display: none;
+}
+.model .ant-modal-body{
+    padding-bottom: 14px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+/** 放大镜--展示图片 */
+.exhibit .ant-modal-close-x{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+}
+
+/** 提示警告 */
+.hint .ant-modal-body{
+    padding-bottom: 40px;
+}
+/* 弹出框-样式--end */
+
+
+/* 图片库--start */
+/** 图片上传--图片列表隐藏 */
+.uploadHide .ant-upload-list-text{
+    display: none;
+}
+.gallery .ant-upload-list-picture-card-container,.gallery .ant-upload.ant-upload-select-picture-card,.gallery .ant-upload-list-picture-card .ant-upload-list-item{
+    width: 114px;
+    height: 114px;
+}
+.gallery .ant-upload-list-picture-card-container{
+    margin: 0 12px 12px 0;
+}
+.gallery .ant-upload.ant-upload-select-picture-card .img{
+    width: 96px;
+    height: 96px;
+}
+/*** 预览 */
+.gallery .magnifier{
+    position: relative;
+    width: 114px;
+    display: inline-block;
+}
+.gallery .magnifier .magnifier-actions{
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    z-index: -1;
+    cursor: pointer;
+}
+.gallery .magnifier:hover .magnifier-actions{
+    z-index: 10;
+}
+/* 图片库--end */
+
+/* 图片上传--start */
+.upload-img{
+    width: 100px;
+    height: 100px;
+}
+.upload-img img{
+    width: 100px;
+    height: 100px;
+}
+.upload-img>.ant-upload-select-picture-card{
+    width: 100px;
+    height: 100px;
+}
+/* 图片上传--end */
+
+/* 商品详情-规格图片上传--start */
+.upload-table{
+    padding: 4px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    line-height: 56px;
+    vertical-align: middle;
+    border: 1px dashed #dddddd;
+}
+.upload-table img{
+    width: 50px;
+    height: 50px;
+    vertical-align: baseline;
+    border-radius: 3px;
+}
+/** 图标 */
+.upload-table .anticon-camera{
+    font-size: 22px;
+    color: #b3b3b3;
+}
+/* 商品详情-规格图片上传--end */
+
+/* 图片上传按钮--start */
+.addImage{
+    width: 104px;
+    height: 104px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fafafa;
+    border: 1px dashed #d9d9d9;
+    transition: border-color 0.3s ease;
+}
+.addImage:hover{
+    border-color: #1890ff;
+}
+.addImage .img-content{
+    width: 100%;
+    height: 44px;
+    line-height: 22px;
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.addImage .img-content .img-text{
+    width: 100%;
+    display: inline-block;
+}
+/* 图片上传按钮--end */
+
+
+/* 开关样式--start */
+.switch{
+    min-width: 62px;
+    height: 30px;
+}
+.switch:after{
+    width: 26px;
+    height: 26px;
+}
+/* 开关样式--end */
+
+
+
+
+
+/* 加载中。。。--start */
+.loading{
+    position: absolute;
+    left: calc(50% - 40px);
+    top: 40%;
+}
+/* 加载中。。。--end */
+
+/* 文本框--start */
+.textarea{
+    position: relative;
+}
+.textarea>textarea{
+    padding-bottom: 20px;
+}
+.textarea>span{
+    margin-left: 2px;
+    padding-right: 4px;
+    width: calc(100% - 20px);
+    height: 24px;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    color: #c5c5c5;
+    line-height: 24px;
+    text-align: right;
+    display: inline-block;
+    background-color: #ffffff;
+}
+/* 文本框--end */
+
+/* from样式 --start */
+
+/** 宽度-范围 */
+.extent{
+    min-width: 200px !important;
+    max-width: 520px !important;
+}
+/** label最小宽度 */
+.formCol .ant-form-item-label{
+    min-width: 110px;
+}
+/** 手机端描述 */
+.phoneBewrite{
+    width: 100%;
+}
+.phoneBewrite .ant-form-item-label,.phoneBewrite .ant-form-item-control-wrapper{
+    margin: auto;
+    float: none;
+    text-align: left;
+    display: inherit;
+}
+
+/** 验证提示 */
+.initValue .ant-form-item-children{
+    display: inherit;
+}
+/** 验证提示(未占一行) */
+.notRow .ant-form-item-children-icon{
+    right: -30px !important;
+}
+/* from --end */
+
+/* 复选框样式--start */
+.normsText .ant-checkbox-wrapper + .ant-checkbox-wrapper{
+    margin-left: 0 !important;
+}
+/* 复选框样式--end */
+
+/* 步骤条样式--start */
+.steps .ant-steps-label-vertical .ant-steps-item-content{
+    margin-top: 16px;
+}
+
+.steps .ant-steps-label-vertical .ant-steps-item-title,.steps .ant-steps-item-process .ant-steps-item-title{
+    font-size: 18px;
+    font-weight: 600;
+}
+/* 步骤条样式--end */
+
+
+/* 权限 */
+.warrants{
+    width: auto;
+    border: 1px solid #dddddd;
+}
+.warrants .wa-list{
+    margin: 0 auto;
+    line-height: 28px;
+    border-bottom: 1px solid #dddddd;
+    background-color: rgba(76, 175, 80, 0.22);
+}
+.warrants .wa-list:nth-last-child(1){
+    border-bottom: 0px;
+}
+.warrants .wa-list .wa-head{
+    padding: 6px 15px;
+    width: 100%;
+    cursor: pointer;
+}
+
+
+.warrants .wa-list .icon{
+    margin-right: 10px;
+}
+.warrants .wa-list .downIcon{
+    transition: transform .3s ease-in-out;
+    transform: rotateZ(90deg);
+}
+.warrants .wa-list .topIcon{
+    transition: transform .3s ease-in-out;
+    transform: rotateZ(0deg);
+}

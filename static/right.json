@@ -1,0 +1,160 @@
+{
+    "index": [
+        {
+            "parent_id":"0", "label":"线上渠道", "value":"1", "type": 1,"rights":[],"checked": false,"isDown":false,
+            "children":[
+                { "parent_id":"1", "label":"自营渠道", "value":"2", "type": 1,"checked": false,"isDown":false,
+                        "rights":[
+                        { "parent_id":"2", "label":"上下架", "value":"2-3", "type": 2, "checked": true },
+                        { "parent_id":"2", "label":"添加", "value":"2-4", "type": 2, "checked": true },
+                        { "parent_id":"2", "label":"编辑", "value":"2-5", "type": 2, "checked": false },
+                        { "parent_id":"2", "label":"删除", "value":"2-6", "type": 2, "checked": false },
+                        { "parent_id":"2", "label":"批量上下架", "value":"2-7", "type": 2, "checked": false },
+                        { "parent_id":"2", "label":"批量删除", "value":"2-8", "type": 2, "checked": false }
+                    ]
+                },
+                { "parent_id":"1", "label":"BTB渠道", "value":"3", "type": 1,"checked": false,"isDown":false,
+                    "rights":[
+                        { "parent_id":"3", "label":"上下架", "value":"3-1", "type": 2, "checked": false },
+                        { "parent_id":"3", "label":"添加", "value":"3-4", "type": 2, "checked": false },
+                        { "parent_id":"3", "label":"编辑", "value":"3-5", "type": 2, "checked": false },
+                        { "parent_id":"3", "label":"删除", "value":"3-6", "type": 2, "checked": false },
+                        { "parent_id":"3", "label":"批量上下架", "value":"3-7", "type": 2, "checked": false },
+                        { "parent_id":"3", "label":"批量删除", "value":"3-8", "type": 2, "checked": false }
+                    ]
+                },
+                { "parent_id":"1", "label":"三方渠道", "value":"4", "type": 1,"checked": false,
+                    "children": [
+                        { "parent_id":"4", "label":"天猫", "value":"5", "type": 1,"checked": false,
+                            "rights":[
+                                { "parent_id":"5", "label":"上下架", "value":"5-1", "type": 2, "checked": false },
+                                { "parent_id":"5", "label":"添加", "value":"5-3", "type": 2, "checked": false },
+                                { "parent_id":"5", "label":"编辑", "value":"5-5", "type": 2, "checked": false },
+                                { "parent_id":"5", "label":"删除", "value":"5-6", "type": 2, "checked": false },
+                                { "parent_id":"5", "label":"批量上下架", "value":"5-7", "type": 2, "checked": false },
+                                { "parent_id":"5", "label":"批量删除", "value":"5-8", "type": 2, "checked": false }
+                            ]
+                        },
+                        { "parent_id":"4", "label":"京东", "value":"6", "type": 1,"checked": false,
+                            "rights":[
+                                { "parent_id":"6", "label":"上下架", "value":"6-1", "type": 2, "checked": false },
+                                { "parent_id":"6", "label":"添加", "value":"6-2", "type": 2, "checked": false },
+                                { "parent_id":"6", "label":"编辑", "value":"6-5", "type": 2, "checked": false },
+                                { "parent_id":"6", "label":"删除", "value":"6-6", "type": 2, "checked": false },
+                                { "parent_id":"6", "label":"批量上下架", "value":"6-7", "type": 2, "checked": false },
+                                { "parent_id":"6", "label":"批量删除", "value":"6-8", "type": 2, "checked": false }
+                            ]
+                        },
+                        { "parent_id":"4", "label":"小红书", "value":"7", "type": 1,"checked": false,
+                            "rights":[
+                                { "parent_id":"7", "label":"上下架", "value":"7-1", "type": 2, "checked": false },
+                                { "parent_id":"7", "label":"添加", "value":"7-2", "type": 2, "checked": false },
+                                { "parent_id":"7", "label":"编辑", "value":"7-5", "type": 2, "checked": false },
+                                { "parent_id":"7", "label":"删除", "value":"7-6", "type": 2, "checked": false },
+                                { "parent_id":"7", "label":"批量上下架", "value":"7-7", "type": 2, "checked": false },
+                                { "parent_id":"7", "label":"批量删除", "value":"7-8", "type": 2, "checked": false }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "parent_id":"0", "label":"线下渠道", "value":"100", "type": 1,"rights":[], "checked": false,
+            "children":[
+                { "parent_id":"100", "label":"农夫市集", "value":"102", "type": 1,"checked": false,
+                    "rights":[
+                        { "parent_id":"102", "label":"上下架", "value":"1003", "type": 2, "checked": false },
+                        { "parent_id":"102", "label":"添加", "value":"1004", "type": 2, "checked": false },
+                        { "parent_id":"102", "label":"编辑", "value":"1005", "type": 2, "checked": false },
+                        { "parent_id":"102", "label":"删除", "value":"1006", "type": 2, "checked": false },
+                        { "parent_id":"102", "label":"批量上下架", "value":"1007", "type": 2, "checked": false },
+                        { "parent_id":"102", "label":"批量删除", "value":"1008", "type": 2, "checked": false }
+                    ]
+                },
+                { "parent_id":"100", "label":"中山国际", "value":"103", "type": 1,"checked": false,
+                    "rights":[
+                        { "parent_id":"103", "label":"上下架", "value":"1033", "type": 2, "checked": false },
+                        { "parent_id":"103", "label":"添加", "value":"1034", "type": 2, "checked": false },
+                        { "parent_id":"103", "label":"编辑", "value":"1035", "type": 2, "checked": false },
+                        { "parent_id":"103", "label":"删除", "value":"1036", "type": 2, "checked": false },
+                        { "parent_id":"103", "label":"批量上下架", "value":"1037", "type": 2, "checked": false },
+                        { "parent_id":"103", "label":"批量删除", "value":"1038", "type": 2, "checked": false }
+                    ]
+                },
+                { "parent_id":"100", "label":"金虹桥", "value":"104", "type": 1,"checked": false,
+                    "rights":[
+                        { "parent_id":"104", "label":"上下架", "value":"1043", "type": 2, "checked": false },
+                        { "parent_id":"104", "label":"添加", "value":"1044", "type": 2, "checked": false },
+                        { "parent_id":"104", "label":"编辑", "value":"1045", "type": 2, "checked": false },
+                        { "parent_id":"104", "label":"删除", "value":"1046", "type": 2, "checked": false },
+                        { "parent_id":"104", "label":"批量上下架", "value":"1047", "type": 2, "checked": false },
+                        { "parent_id":"104", "label":"批量删除", "value":"1048", "type": 2, "checked": false }
+                    ]
+                }
+            ]
+        }
+    ],
+    "list": [
+        { "parent_id":"0", "label":"线上渠道", "value":"1", "type": 1 },
+        { "parent_id":"1", "label":"自营渠道", "value":"2", "type": 1 },
+        { "parent_id":"1", "label":"BTB渠道", "value":"3", "type": 1 },
+        { "parent_id":"2", "label":"上下架", "value":"2-3", "type": 2 },
+        { "parent_id":"2", "label":"添加", "value":"2-4", "type": 2 },
+        { "parent_id":"2", "label":"编辑", "value":"2-5", "type": 2 },
+        { "parent_id":"2", "label":"删除", "value":"2-6", "type": 2 },
+        { "parent_id":"2", "label":"批量上下架", "value":"2-7", "type": 2 },
+        { "parent_id":"2", "label":"批量删除", "value":"2-8", "type": 2 },
+        { "parent_id":"3", "label":"上下架", "value":"3-1", "type": 2 },
+        { "parent_id":"3", "label":"添加", "value":"3-4", "type": 2 },
+        { "parent_id":"3", "label":"编辑", "value":"3-5", "type": 2 },
+        { "parent_id":"3", "label":"删除", "value":"3-6", "type": 2 },
+        { "parent_id":"3", "label":"批量上下架", "value":"3-7", "type": 2 },
+        { "parent_id":"3", "label":"批量删除", "value":"3-8", "type": 2 },
+        { "parent_id":"0", "label":"线下渠道", "value":"100", "type": 1 },
+        { "parent_id":"100", "label":"农夫市集", "value":"102", "type": 1 },
+        { "parent_id":"102", "label":"上下架", "value":"1003", "type": 2 },
+        { "parent_id":"102", "label":"添加", "value":"1004", "type": 2 },
+        { "parent_id":"102", "label":"编辑", "value":"1005", "type": 2 },
+        { "parent_id":"102", "label":"删除", "value":"1006", "type": 2 },
+        { "parent_id":"102", "label":"批量上下架", "value":"1007", "type": 2 },
+        { "parent_id":"102", "label":"批量删除", "value":"1008", "type": 2 },
+		{ "parent_id":"1", "label":"三方渠道", "value":"4", "type": 1 },
+		{ "parent_id":"4", "label":"天猫", "value":"5", "type": 1 },
+		{ "parent_id":"5", "label":"上下架", "value":"5-1", "type": 2 },
+		{ "parent_id":"5", "label":"添加", "value":"5-3", "type": 2 },
+		{ "parent_id":"5", "label":"编辑", "value":"5-5", "type": 2 },
+		{ "parent_id":"5", "label":"删除", "value":"5-6", "type": 2 },
+		{ "parent_id":"5", "label":"批量上下架", "value":"5-7", "type": 2 },
+		{ "parent_id":"5", "label":"批量删除", "value":"5-8", "type": 2 },
+        { "parent_id":"4", "label":"京东", "value":"6", "type": 1 },
+        { "parent_id":"6", "label":"上下架", "value":"6-1", "type": 2 },
+        { "parent_id":"6", "label":"添加", "value":"6-2", "type": 2 },
+        { "parent_id":"6", "label":"编辑", "value":"6-5", "type": 2 },
+        { "parent_id":"6", "label":"删除", "value":"6-6", "type": 2 },
+        { "parent_id":"6", "label":"批量上下架", "value":"6-7", "type": 2 },
+        { "parent_id":"6", "label":"批量删除", "value":"6-8", "type": 2 },
+        { "parent_id":"4", "label":"小红书", "value":"7", "type": 1 },
+        { "parent_id":"7", "label":"上下架", "value":"7-1", "type": 2 },
+        { "parent_id":"7", "label":"添加", "value":"7-2", "type": 2 },
+        { "parent_id":"7", "label":"编辑", "value":"7-5", "type": 2 },
+        { "parent_id":"7", "label":"删除", "value":"7-6", "type": 2 },
+        { "parent_id":"7", "label":"批量上下架", "value":"7-7", "type": 2 },
+        { "parent_id":"7", "label":"批量删除", "value":"7-8", "type": 2 },
+        { "parent_id":"100", "label":"金虹桥", "value":"104", "type": 1  },
+        { "parent_id":"104", "label":"上下架", "value":"1043", "type": 2  },
+        { "parent_id":"104", "label":"添加", "value":"1044", "type": 2  },
+        { "parent_id":"104", "label":"编辑", "value":"1045", "type": 2  },
+        { "parent_id":"104", "label":"删除", "value":"1046", "type": 2  },
+        { "parent_id":"104", "label":"批量上下架", "value":"1047", "type": 2  },
+        { "parent_id":"104", "label":"批量删除", "value":"1048", "type": 2  },
+        { "parent_id":"100", "label":"中山国际", "value":"103", "type": 1  },
+        { "parent_id":"103", "label":"上下架", "value":"1033", "type": 2  },
+        { "parent_id":"103", "label":"添加", "value":"1034", "type": 2  },
+        { "parent_id":"103", "label":"编辑", "value":"1035", "type": 2  },
+        { "parent_id":"103", "label":"删除", "value":"1036", "type": 2  },
+        { "parent_id":"103", "label":"批量上下架", "value":"1037", "type": 2  },
+        { "parent_id":"103", "label":"批量删除", "value":"1038", "type": 2  }
+    ],
+    "detail": ["2","3","2-4","2-3","2-5","3-4","3-5","3-6","102","1003","1004","1005","1006","5","5-1","5-3","5-6"]
+}
