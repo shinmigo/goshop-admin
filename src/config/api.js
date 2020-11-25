@@ -2,7 +2,9 @@ const baseUrl = "http://10.32.5.88:8099/";
 
 
 
-export const ImagesAPI = `${baseUrl}images/get-image-id`;       //商品图片添加
+export const ImagesAPI = `${baseUrl}image/upload`;       //商品图片添加
+export const GetImageApi = `${baseUrl}image/get-image`;  //获取图片
+
 
 /* 登录登出 */
 export const LoginAPI = `${baseUrl}auth/login`;        //登录
@@ -67,6 +69,16 @@ export const DeleteProductAPI = `${baseUrl}product/delete`;               //删�
 export const OrderListAPI = `${baseUrl}order/index`;               //订单列表
 export const OrderShipmentAPI = `${baseUrl}shipment/add`;               //订单发货
 export const OrderStatusAPI = `${baseUrl}order/status`;               //订单状态
+
+/* 广告位列表 */
+export const BannerListAPI = `${baseUrl}banner/index`;               //广告位列表
+export const DeleteBannerAPI = `${baseUrl}banner/delete`;            //删除广告位
+export const AddBannerAPI = `${baseUrl}banner/add`;                  //创建广告位
+export const EditBannerAPI = `${baseUrl}banner/edit`;                //编辑广告位
+export const EditBannerStatusAPI = `${baseUrl}banner/edit-status`;   //编辑广告位状态
+
+
+
 
 
 

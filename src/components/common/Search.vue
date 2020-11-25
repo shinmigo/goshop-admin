@@ -19,6 +19,12 @@
                 </a-select>
                 <!-- 日期 -->
                 <a-range-picker v-model="ruleForm.value[item.value]" format="YYYY-MM-DD HH:mm:ss" v-else-if="item.type == 5" @change="onChange" />
+                <!-- 广告位 -->
+                <a-select v-model="ruleForm.value[item.value]" v-else-if="item.type == 6" >
+                    <a-select-option v-for="(value,key) in menuUp2" :key="key" :value="value.value">
+                        {{ value.label }}
+                    </a-select-option>
+                </a-select>
             </div>
         </div>
         <div class="search-button text-right padding-right-sm">
@@ -43,6 +49,7 @@
                 isDown: false,
                 menuUp: Menu.menuUp1,  //上下架(空全部,1上架,2下架)
                 menuUp1: Menu.menuUp2,  //启用禁用(空全部,1启用,2禁用)
+                menuUp2: Menu.menuUp3,  //广告位类型(空全部,1banner,2广告位)
             }
         },
         computed: {

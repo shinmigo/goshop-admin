@@ -15,6 +15,7 @@ const state = {
 
     /* 弹出层状态 */
     model:{
+        addType: false,
         editType: false,    //添加或编辑
         hint: false,        //提示
         nexus: false,       //关联关系

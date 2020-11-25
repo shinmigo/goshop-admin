@@ -7,9 +7,8 @@ export const Goods = {
             filterOption(input, option) {
                 return (option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0);
             },
-    
             /* 轮播图片 */
-            carousel:["d00cd077d140ac46152519692c59dd9e-w300.jpg","9a03f957e0fa253ee2a632fa95c02fff-w300.jpg",'32bedb45662130484792a66d355e7ad9-w300.jpg'],
+            carousel:[],
             //上传图片参数
             upload: {
                 name: 'file',     //上传文件名称
@@ -24,35 +23,14 @@ export const Goods = {
                 }
             },
             loading: false,  //轮播图片上传状态
-    
-            /* 规格 */
-            columns: Menu.Columns6,  //table 头部--单规格
-            columns1: Menu.Columns16,  //table 头部--多规格
-            isNorms: false,  //是否多个规格(2true多规格，1false单规格)
-            /* 多规格-规格选项列表 */
-            normsData: {},
-            normsDataList: [],       //多规格-规格选中列表
-            isNormsData: false,   //多规格-是否选中规格选项(true已选中-规格列表展示，false未选中-规格列表不展示)
-            /* 规格数据列表(图片、价格、成本、原价、库存、编号、重量、体积) */
-            normsList: {'image':'cc60a023cf41f9bdcc6c74474c3ff217-w300.jpg','price':'','cost_price':'','old_price':'','stock':'','sku':'','weight':'','volume':''},
-            manyNormsList:[],   //多规格列表
-            oneNormsList: [],  //单规格列表
-    
+            
             /* 手机端描述(type:1文字,2图片。status:1编辑状态,2:展示状态。focus:true选中,false:未选中。text:文本或图片ID。url:图片url) */
             phoneList:[],  //手机端描述列表
             phoneFocus: '',   //手机端描述焦点所在
             phoneText:{},     //手机端描述焦点所在文档
-    
-            kindList:[],   //商品类型列表
-            labelList:[],   //商品标签列表
-            
-            /* 商品参数-- */
-            paramterData:[],
-            
         }
     },
     destroyed(){
-    
     },
     mounted() {
     },
@@ -98,244 +76,6 @@ export const Goods = {
                     break;
             }
         },
-        
-        /* 根据商品类型设置--规格和参数 */
-        setParams(kind_id){
-            // console.log('规格参数：',kind_id,this.kindList);
-            for (let item of this.kindList){
-                if(kind_id == item.kind_id){
-                    /*  参数 */
-                    this.paramterData = [];
-                    if(item.params) {
-                        for (let value of item.params) {
-                            let list = {
-                                type: value.type,
-                                label: value.name,
-                                param_id: value.param_id,
-                                children: [],
-                            };
-                            
-                            if(value.type == 1 || value.type == 2){
-                                list.value = '';
-                            } else {
-                                list.value = [];
-                            }
-                            if (!value.contents) {
-                                this.paramterData.push(list);
-                                continue;
-                            }
-                            for (let values of value.contents) {
-                                let str = {
-                                    value: values.param_value_id,
-                                    label: values.content
-                                };
-                                list.children.push(str);
-                            }
-                            this.paramterData.push(list);
-                        }
-                    }
-                    
-                    /* 规格 */
-                    this.normsData = {};
-                    if(item.specs){
-                        for(let value of item.specs){
-                            this.normsData[value.name] = [];
-                            for (let values of value.contents) {
-                                let str = {
-                                    id: values.spec_value_id,
-                                    parent_id: 'spec'+ value.spec_id,
-                                    title: values.content,
-                                    check:false
-                                };
-                                this.normsData[value.name].push(str);
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-    
-            //console.log('规格参数2：',JSON.stringify(this.paramterData),this.normsData);
-        },
-    
-        /* 商品规格切换 */
-        normsChange(e){
-            this.isNorms = e.target.value == 2 ? true:false;
-            if(this.isNorms){  //多规格
-                if(this.manyNormsList.length > 0){
-                    return false;
-                }
-                this.isNormsData = false;   //多规格列表-头部隐藏
-            } else {  //单规格
-                if(this.oneNormsList.length > 0){
-                    return false;
-                }
-                this.oneNormsList.push(Menu.Columns7);
-            }
-        },
-        /* 多规格-规格选中(isList是否生成列表默认生成) */
-        checkChange(index,key,isList=true){
-            let item = this.normsData[index][key];
-            item.check = !item.check;
-            //console.log("item:",JSON.stringify(item));
-        
-            let column = JSON.parse(JSON.stringify(this.columns1));
-            if(item.check){
-                /* 多规格列表--显示或隐藏 */
-                this.isNormsData = true;   //多规格选中，规格列表显示
-                this.normsDataList.push(item);
-            
-                /* 规格列表--头部 */
-                let n = column.reduce((arr,item) => { if(item.title == index){ arr++; } return arr; }, 0);
-                if(n == 0){
-                    let str = {title: index,label:item.parent_id, need: false};
-                    column.unshift(str);
-                    this.normsList[item.parent_id] = item.parent_id;
-                }
-            
-                /* 多规格-循环列表 */
-                if(isList) {
-                    let m = this.normsDataList.reduce((arr, value) => {
-                        if (value.parent_id != item.parent_id) {
-                            arr++;
-                        }
-                        return arr;
-                    }, 0);
-                    if (m > 0) {
-                        let l = this.normsDataList.reduce((arr, value) => {
-                            if (value.parent_id == item.parent_id) {
-                                arr++;
-                            }
-                            return arr;
-                        }, 0);
-                        if (l == 1) {
-                            for (let value of this.manyNormsList) {
-                                value.spec_value_id.push(item.id);
-                                value[item.parent_id] = item.title;
-                            }
-                            
-                        } else {
-                            /* 相同父元素的对象提取 */
-                            let afterData = [];
-                            let tempArr = [];
-                            for (let value of this.normsDataList) {
-                                if (tempArr.indexOf(value.parent_id) === -1) {
-                                    afterData.push([value]);
-                                    tempArr.push(value.parent_id);
-                                } else {
-                                    for (let value1 of afterData) {
-                                        if (value1[0].parent_id == value.parent_id) {
-                                            value1.push(value);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            /* 笛卡尔积 算法--交叉 */
-                            let data = this.authority.calcDescartes(afterData);
-    
-                            for (let value of data) {
-                                let str = JSON.parse(JSON.stringify(this.normsList));
-                                let statu = false;
-                                let spec_value_id = [];
-                                for (let value1 of value) {
-                                    if (value1.title == item.title) {
-                                        statu = true;
-                                    }
-                                    spec_value_id.push(value1.id);
-                                    str[value1.parent_id] = value1.title;
-                                }
-                                if (statu) {
-                                    str.spec_value_id = spec_value_id;
-                                    this.manyNormsList.push(str);
-                                    statu = false;
-                                }
-                            }
-                        }
-                    } else {
-                        let normsLists = {};
-                        let spec_value_id = [];
-                        for (let i in this.normsList) {
-                            if (i == item.parent_id) {
-                                spec_value_id.push(item.id);
-                                normsLists[i] = item.title;
-                                continue;
-                            }
-                            normsLists[i] = this.normsList[i];
-                        }
-                        normsLists.spec_value_id = spec_value_id;
-                       
-                        this.manyNormsList.push(normsLists);
-                    }
-                }
-            } else {
-                /* 多规格列表--显示或隐藏 */
-                for (let i in this.normsDataList) {
-                    if(this.normsDataList[i].id == item.id){
-                        this.normsDataList.splice(i,1)
-                    }
-                }
-                if(this.normsDataList.length == 0){
-                    this.isNormsData = false;   //多规格取消，规格列表隐藏
-                }
-            
-                /* 规格列表--头部 */
-                let n = this.normsDataList.reduce((arr,value) => { if(value.parent_id == item.parent_id){ arr++; } return arr; }, 0);
-                if(n == 0){
-                    for (let i in column) {
-                        if(column[i].title == index){
-                            column.splice(i,1);
-                        }
-                    }
-                    
-                    delete this.normsList[item.parent_id];
-                    if(!this.isNormsData){
-                        this.manyNormsList = [];
-                    } else {
-                        for (let value of this.manyNormsList){
-                            delete value[item.parent_id];
-                            let index = value.spec_value_id.indexOf(item.id);
-                            value.spec_value_id.splice(index,1);
-                        }
-                    }
-                
-                } else {
-                    /* 多规格-循环列表--去除 */
-                    let manyNormsList = [];
-                    for (let value of this.manyNormsList){
-                        if(value[item.parent_id] != item.title){
-                            manyNormsList.push(value);
-                        }
-                    }
-                    /* 规格列表--数据 */
-                    this.manyNormsList = manyNormsList;
-                }
-            }
-        
-            /* 规格列表--头部 */
-            this.columns1 = column;
-        
-           // console.log("column::",JSON.stringify(this.manyNormsList));
-        },
-        /* 删除多规格列表数据 */
-        deleteManyNorms(index){
-            this.manyNormsList.splice(index,1);
-        },
-    
-        /* 规格图片-图片库打开 */
-        handleChangeFocus(type,index){
-            this.imageType = {
-                status: 2,     //状态(1商品轮播图，2商品规格图片)
-                type: 1,       //上传图片状态1单品，2批量
-                specType: type,  //商品规格类型(1单规格2多规格)
-                index: index,     //key键
-                action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',     //图片上传接口
-            };
-            this.$store.state.model.editType = true;
-        },
-  
-    
         /* 手机端描述--焦点选中 */
         textChange(index,item){
             //console.log('焦点选中',item);
@@ -391,21 +131,243 @@ export const Goods = {
             };
             this.phoneList.splice(n,0,str);
         },
-        
-        /* 手机端描述-图片库打开 */
-        imgChange(type){
-            console.log("图片1上传或2替换:",type)
-            this.imageType = {
-                status: 3,     //状态(1商品轮播图，2商品规格图片，3手机端描述)
-                type: 1,       //上传图片状态1单品，2批量
-                phoneType: type,  //手机端描述类型(1上传或2替换)
-                action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',     //图片上传接口
-            };
-            this.$store.state.model.editType = true;
-        },
-        
     },
     watch: {
-    
     }
+};
+
+
+export const SpecsParam = {
+    data() {
+        return {
+            /* 规格 */
+            columns: Menu.Columns6,  //table 头部--规格
+            /* 多规格-规格选项列表 */
+            normsData: {},
+            normsDataList: [],       //多规格-规格选中列表
+    
+            /* 规格数据列表(图片、价格、成本、原价、库存、编号、重量、体积) */
+            normsList: {'image':'','price':'','cost_price':'','old_price':'','stock':'','sku':'','weight':'','volume':'','action':''},
+            manyNormsList:[],   //多规格列表
+            
+            /* 商品参数-- */
+            paramterData:[],
+        }
+    },
+    methods: {
+        /* 根据商品类型设置--规格和参数 */
+        setParams(kind_id){
+            for (let item of this.kindList){
+                if(kind_id == item.kind_id){
+                    /*  参数 */
+                    this.paramterData = [];
+                    if(item.params) {
+                        for (let value of item.params) {
+                            let list = {
+                                type: value.type,
+                                label: value.name,
+                                param_id: value.param_id,
+                                children: [],
+                            };
+                        
+                            if(value.type == 1 || value.type == 2){
+                                list.value = '';
+                            } else {
+                                list.value = [];
+                            }
+                            if (!value.contents) {
+                                this.paramterData.push(list);
+                                continue;
+                            }
+                            for (let values of value.contents) {
+                                let str = {
+                                    value: values.param_value_id,
+                                    label: values.content
+                                };
+                                list.children.push(str);
+                            }
+                            this.paramterData.push(list);
+                        }
+                    }
+                
+                    /* 规格 */
+                    let spec = item.specs ? item.specs : [];
+                    this.gitSpecs(spec);
+                    break;
+                }
+            }
+        
+            console.log('参数.规格：',this.paramterData,this.normsData);
+        },
+        
+        //规格
+        gitSpecs(item = []){
+            this.normsData = {};
+            for(let value of item){
+                this.normsData[value.name] = [];
+                for (let values of value.contents) {
+                    let str = {
+                        id: values.spec_value_id,
+                        parent_id: 'spec'+ value.spec_id,
+                        title: values.content,
+                        check:false
+                    };
+                    this.normsData[value.name].push(str);
+                }
+            }
+            this.columns = Menu.Columns6;   //头部
+            this.manyNormsList = [];
+            this.manyNormsList.push(Menu.Columns7);   //初始化规格列表
+            this.normsDataList = [];   //规格选中
+        },
+        
+        /* 多规格-规格选中(isList是否生成列表默认生成) */
+        checkChange(index,key,isList=true){
+            let item = this.normsData[index][key];
+            item.check = !item.check;
+           
+            let column = JSON.parse(JSON.stringify(this.columns));
+          
+            if(item.check){
+                /* 多规格列表--显示或隐藏 */
+                this.normsDataList.push(item);
+            
+                /* 规格列表--头部 */
+                let n = column.reduce((arr,item) => { if(item.title == index){ arr++; } return arr; }, 0);
+                if(n == 0){
+                    let str = {title: index,label:item.parent_id, need: false};
+                    column.unshift(str);
+                    this.normsList[item.parent_id] = item.parent_id;
+                }
+            
+                /* 多规格-循环列表 */
+                if(isList) {
+                    let m = this.normsDataList.reduce((arr, value) => {
+                        if (value.parent_id != item.parent_id) {
+                            arr++;
+                        }
+                        return arr;
+                    }, 0);
+                    
+                    if (m > 0) {
+                        let l = this.normsDataList.reduce((arr, value) => {
+                            if (value.parent_id == item.parent_id) {
+                                arr++;
+                            }
+                            return arr;
+                        }, 0);
+                        
+                        if (l == 1) {
+                            for (let value of this.manyNormsList) {
+                                value.spec_value_id.push(item.id);
+                                value[item.parent_id] = item.title;
+                            }
+                        
+                        } else {
+                            /* 相同父元素的对象提取 */
+                            let afterData = [];
+                            let tempArr = [];
+                            for (let value of this.normsDataList) {
+                                if (tempArr.indexOf(value.parent_id) === -1) {
+                                    afterData.push([value]);
+                                    tempArr.push(value.parent_id);
+                                } else {
+                                    for (let value1 of afterData) {
+                                        if (value1[0].parent_id == value.parent_id) {
+                                            value1.push(value);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        
+                            /* 笛卡尔积 算法--交叉 */
+                            let data = this.authority.calcDescartes(afterData);
+                        
+                            for (let value of data) {
+                                let str = JSON.parse(JSON.stringify(this.normsList));
+                                let statu = false;
+                                let spec_value_id = [];
+                                for (let value1 of value) {
+                                    if (value1.title == item.title) {
+                                        statu = true;
+                                    }
+                                    spec_value_id.push(value1.id);
+                                    str[value1.parent_id] = value1.title;
+                                }
+                                if (statu) {
+                                    str.spec_value_id = spec_value_id;
+                                    this.manyNormsList.push(str);
+                                    statu = false;
+                                }
+                            }
+                        }
+                    } else {
+                        let normsLists = {};
+                        let spec_value_id = [];
+                        for (let i in this.normsList) {
+                            if (i == item.parent_id) {
+                                spec_value_id.push(item.id);
+                                normsLists[i] = item.title;
+                                continue;
+                            }
+                            normsLists[i] = this.normsList[i];
+                        }
+                        normsLists.spec_value_id = spec_value_id;
+                        
+                        console.log(this.normsDataList.length);
+                        if(this.normsDataList.length == 1){
+                            this.manyNormsList[0] = normsLists;
+                        } else {
+                            this.manyNormsList.push(normsLists);
+                        }
+                    }
+                }
+            } else {
+                /* 多规格列表--显示或隐藏 */
+                for (let i in this.normsDataList) {
+                    if(this.normsDataList[i].id == item.id){
+                        this.normsDataList.splice(i,1)
+                    }
+                }
+                /* 规格列表--头部 */
+                let n = this.normsDataList.reduce((arr,value) => { if(value.parent_id == item.parent_id){ arr++; } return arr; }, 0);
+                if(n == 0){
+                    for (let i in column) {
+                        if(column[i].title == index){
+                            column.splice(i,1);
+                        }
+                    }
+                    delete this.normsList[item.parent_id];
+                    for (let value of this.manyNormsList){
+                        delete value[item.parent_id];
+                        let index = value.spec_value_id.indexOf(item.id);
+                        value.spec_value_id.splice(index,1);
+                    }
+                } else {
+                    /* 多规格-循环列表--去除 */
+                    let manyNormsList = [];
+                    for (let value of this.manyNormsList){
+                        if(value[item.parent_id] != item.title){
+                            manyNormsList.push(value);
+                        }
+                    }
+                    /* 规格列表--数据 */
+                    this.manyNormsList = manyNormsList;
+                }
+            }
+        
+            /* 规格列表--头部 */
+            this.columns = column;
+        
+             console.log("manyNormsList::",this.columns,this.normsList,JSON.stringify(this.manyNormsList));
+        },
+        
+        /* 删除多规格列表数据 */
+        deleteManyNorms(index){
+            this.manyNormsList.splice(index,1);
+        },
+        
+    }
+    
 };

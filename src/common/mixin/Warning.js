@@ -30,7 +30,9 @@ export const Warning = {
         },
         //按钮预防多次点击事件--放开
         onlyRead(event){
+            console.log('444455555',event.target.style.pointerEvents,event);
             event.target.style.pointerEvents = 'auto';
+            console.log('88888',event.target.style.pointerEvents,event);
         },
     },
     watch: {

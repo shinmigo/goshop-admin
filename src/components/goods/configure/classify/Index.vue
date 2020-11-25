@@ -20,7 +20,7 @@
                  :row-selection="{selectedRowKeys:rowKeys, onChange:onRowChange }" :pagination="false"
                  @change="asyncFunc" class="table classify-padding margin-top-df">
             <a slot="name" slot-scope="text">{{ text }}</a>
-            <span slot="icon" slot-scope="text"><img :src="text" class="img"></span>
+            <span slot="icon" slot-scope="text"><img :src="image_path+'?name='+text" class="img"></span>
             <span slot="status" slot-scope="text,record,index">
                 <a-switch :checked="text==1?true:false" @click="onChange(1,record.status,record.category_id)" checked-children="启用" un-checked-children="禁用" class="switch"/>
             </span>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import {ProductCategoryListAPI, EditStatusProductCategoryAPI, DeleteProductCategoryAPI} from '../../../../config/api'
+    import {ProductCategoryListAPI, EditStatusProductCategoryAPI, DeleteProductCategoryAPI,GetImageApi,ImagesAPI } from '../../../../config/api'
     
     import Menu from '../../../../config/menu'
     import {Warning} from "../../../../common/mixin/Warning";
@@ -50,7 +50,7 @@
         data() {
             return {
                 columns: Menu.Columns1,  //table 头部
-                
+                image_path: GetImageApi,
                 /* 搜索 */
                 searchText: '',
                 /* 批量操作 */
@@ -99,11 +99,11 @@
                 this.ruleForm = {
                     parent_id: [],
                     status: true,
-                    imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1599196333789&di=7d66e4e7eb5eafe382cc97b78b68114f&imgtype=0&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F9a504fc2d56285352d7d584290ef76c6a7ef6330.jpg',
+                    imageUrl: '',
                 };
                 this.$refs.editClassify.addClassify();  //添加顶级分类
                 
-                this.$store.state.model.editType = true;
+                this.$store.state.model.addType = true;
             },
             /* 编辑 */
             edit(item) {
@@ -129,11 +129,11 @@
                     name: item.name,
                     sort: item.sort.toString(),
                     status: item.status == 1 ? true : false,
-                    imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597666376719&di=f205f6eef6b24151308e301225b71a19&imgtype=0&src=http%3A%2F%2Fp2.so.qhimgs1.com%2Ft01dfcbc38578dac4c2.jpg',
+                    imageUrl: item.icon,
                 };
                 this.$refs.editClassify.addClassify();  //添加顶级分类
     
-                this.$store.state.model.editType = true;
+                this.$store.state.model.addType = true;
             },
             /* 批量修改 */
             refreshBatch(type) {

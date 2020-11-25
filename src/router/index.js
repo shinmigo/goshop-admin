@@ -144,7 +144,7 @@ export default new Router({
             component: name => require(['../components/Home'], name),
             redirect:"/settings/index",
             children:[
-                //主页
+                //广告位管理
                 {
                     path: '/settings/index',
                     component: name => require(['../components/settings/Index'], name),

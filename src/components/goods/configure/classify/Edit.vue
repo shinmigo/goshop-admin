@@ -1,5 +1,5 @@
 <template>
-    <a-modal class="model" :title="styleType.type == 1 ?'新建商品分类':'编辑商品分类'" :width="styleType.width" :visible="this.$store.state.model.editType" @cancel="ruleCancel" centered >
+    <a-modal class="model" :title="styleType.type == 1 ?'新建商品分类':'编辑商品分类'" :width="styleType.width" :visible="this.$store.state.model.addType" @cancel="ruleCancel" centered >
         <a-form :form="form" :label-col="labelCol" :wrapper-col="wrapperCol" @keyup.enter.native="submitForm">
             <a-form-item label="分类ID" has-feedback class="text-hide">
                 <a-input v-decorator="['id',{ initialValue: ruleForm.id }]" />
@@ -17,15 +17,13 @@
                 <a-switch :checked="ruleForm.status" @click="onChange" checked-children="启用" un-checked-children="禁用" class="switch"/>
             </a-form-item>
             <a-form-item label="图标" required >
-                <a-upload :name="upload.name" :headers="upload.headers" :show-upload-list="false" :action="upload.action" :before-upload="beforeUpload" @change="handleChange" :list-type="upload.classType" class="upload-img">
-                    <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" />
+                <div class="img" @click="addImg()">
+                    <img v-if="ruleForm.imageUrl" :src="image_path + '?name=' + ruleForm.imageUrl" />
                     <div v-else>
-                        <a-icon :type="loading ? 'loading' : 'plus'" />
-                        <div class="ant-upload-text">
-                            Upload
-                        </div>
+                        <a-icon type="camera" />
                     </div>
-                </a-upload>
+                </div>
+                
             </a-form-item>
     
             <a-form-item :wrapper-col="{ span: 16, offset: 6 }" class="text-left bg-loading">
@@ -36,18 +34,24 @@
                 <a-button @click.prevent="ruleCancel()">取消</a-button>
             </a-form-item>
         </a-form>
+    
+        <!-- 图片库 -->
+        <images-library :imageType="imageType" @refresh="imageTickling"></images-library>
     </a-modal>
 </template>
 
 <script>
-    import { ImagesAPI,AddProductCategoryAPI,EditProductCategoryAPI } from "../../../../config/api";
+    import { ImagesAPI,GetImageApi,AddProductCategoryAPI,EditProductCategoryAPI } from "../../../../config/api";
     import {Warning} from "../../../../common/mixin/Warning";
+
+    import imagesLibrary from '../../../image/Index'   //图片库
 
     export default {
         mixins: [Warning],
         props: ['styleType','ruleForm'],
         data () {
             return {
+                image_path: GetImageApi,
                 form: this.$form.createForm(this, { name: 'edit' }),
                 rules:{
                     parent_id:[{required: true,whitespace: true,type: 'array', message: '请选择所属分类!' }],
@@ -60,6 +64,15 @@
                 wrapperCol: {
                     span: 16
                 },
+    
+                /* 图片库 */
+                imageType:{
+                    status: 1,     //状态(1商品轮播图片)
+                    type: 2,       //上传图片状态1单品，2批量
+                    action: ImagesAPI,     //图片上传接口
+                },
+                
+                
                 //上传图片参数
                 upload: {
                     name: 'file',     //上传文件名称
@@ -79,6 +92,9 @@
                 classifyList:[],
             }
         },
+        components:{
+            imagesLibrary
+        },
         methods: {
             /* 所属分类中添加顶级分类 */
             addClassify(){
@@ -92,6 +108,27 @@
                 this.ruleForm.status = !this.ruleForm.status;
             },
     
+    
+            /* 打开图片库 */
+            addImg(){
+                this.imageType = {
+                    type: 1,       //上传图片状态1单品，2批量
+                    action: ImagesAPI,     //图片上传接口
+                };
+                this.$store.state.model.editType = true;
+            },
+            /* 图片库反馈 */
+            imageTickling(list) {
+                console.log('图片反馈:', list);
+                if (!list.status) {
+                    this.warningType('参数错误！');
+                    return false;
+                }
+                let image_id = list.list ? list.list[0].image_id:'';
+    
+                this.ruleForm.imageUrl = image_id;
+            },
+            
             /* 上传文件之后的钩子 */
             handleChange(item){
                 console.log("状态：",item);
@@ -132,7 +169,7 @@
                             name: values.name,
                             sort: values.sort,
                             status: this.ruleForm.status?1:0,
-                            icon: this.ruleForm.imageUrl?'2F9a504fc2d56285352d7d584290ef76c6a7ef6330':'2F9a504fc2d56285352d7d584290ef76c6a7ef6330',
+                            icon: this.ruleForm.imageUrl? this.ruleForm.imageUrl.toString() : '',
                         };
     
                         let url = AddProductCategoryAPI;
@@ -164,7 +201,7 @@
             },
             //取消
             ruleCancel(){
-                this.$store.state.model.editType = false;
+                this.$store.state.model.addType = false;
                 this.form.resetFields();
             }
         }
@@ -172,5 +209,25 @@
 </script>
 
 <style scoped>
-
+    .img{
+        width: 96px;
+        height: 96px;
+        cursor: pointer;
+        position: relative;
+        text-align: center;
+        line-height: 96px;
+        border-radius: 4px;
+        border: 1px solid #dddddd;
+    }
+    .img img{
+        width: 94px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 4px;
+    }
+    .img i{
+        font-size: 22px;
+        color: #b3b3b3;
+    }
 </style>

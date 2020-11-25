@@ -33,17 +33,16 @@
                         <div class="carousel">
                             <div v-for="(item,index) in carousel" :key="index">
                                 <div class="img-album cursor radius-xs" >
-                                    <img :src="customForm.url + item">
+                                    <img :src="customForm.url + '?name=' + item">
                                     <span v-if="index == 0" class="first">宝贝主图</span>
-                                    <div class="img-action" v-if="carousel.length > 1">
+                                    <div class="img-action" v-if="carousel.length > 0">
                                         <div @click="aboutImg('left',index)"><a-icon type="left" /></div>
                                         <div @click="aboutImg('delete',index)"><a-icon type="delete" /></div>
                                         <div @click="aboutImg('right',index)"><a-icon type="right" /></div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="addImage" @click="imageChange">
+                            <div class="addImage" v-if="carousel.length < 7" @click="imageChange">
                                 <span class="img-content">
                                     <a-icon :type="loading ? 'loading' : 'plus'" />
                                     <span class="img-text">Upload</span>
@@ -54,12 +53,10 @@
     
                     
                     <a-form-item label="商品规格" required>
-                        <a-radio-group name="radioNorms" v-decorator="['spec_type',{ initialValue: customForm.spec_type }]" @change="normsChange" >
-                            <a-radio value="1">单规格</a-radio>
-                            <a-radio value="2">多规格</a-radio>
-                        </a-radio-group>
+                        
                         <div class="norms">
-                            <div v-show="isNorms" class="normsMeter">
+                            <!-- 规格列表 -->
+                            <div v-show="Object.keys(normsData).length > 0" class="normsMeter">
                                 <div class="meterList" v-for="(item,index) in normsData" :key="index">
                                     <div class="meterName">{{ index }}：</div>
                                     <div class="normsText">
@@ -67,52 +64,21 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <table>
-                                <thead v-show="!isNorms">
-                                <tr>
-                                    <th v-for="(item,index) in columns" :key="index" >
-                                        <span class="text-red" v-show="item.need">*</span>{{ item.title }}
-                                    </th>
-                                </tr>
-                                </thead>
-                                <thead v-show="isNorms && isNormsData">
+                                <thead>
                                     <tr>
-                                        <th v-for="(item,index) in columns1" :key="index" >
+                                        <th v-for="(item,index) in columns" :key="index" >
                                             <span class="text-red" v-show="item.need">*</span>{{ item.title }}
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody v-show="!isNorms">
-                                    <tr v-for="(item,index) in oneNormsList" :key="index">
-                                        <td v-for="(value,index1) in columns" :key="index1" class="text-cut">
-                                            <span v-if="value.label == 'image'" @click="handleChangeFocus(1)"><!-- 单规格-图片 -->
-                                                <div class="upload-table">
-                                                    <img v-if="item.image" :src="customForm.url + item.image" />
-                                                    <div v-else>
-                                                        <a-icon type="camera" />
-                                                    </div>
-                                                </div>
-                                            </span>
-                                            <a-input v-model="item.price" v-else-if="value.label == 'price'" /><!-- 售价 -->
-                                            <a-input v-model="item.cost_price" v-else-if="value.label == 'cost_price'" /><!-- 成本价 -->
-                                            <a-input v-model="item.old_price" v-else-if="value.label == 'old_price'" /><!-- 原价 -->
-                                            <a-input v-model="item.stock" v-else-if="value.label == 'stock'" /><!-- 库存 -->
-                                            <a-input v-model="item.sku" v-else-if="value.label == 'sku'" /><!-- 编号 -->
-                                            <a-input v-model="item.weight" v-else-if="value.label == 'weight'" /><!-- 重量 -->
-                                            <a-input v-model="item.volume" v-else-if="value.label == 'volume'" /><!-- 体积 -->
-                                            <span v-else>
-                                                {{ item[value.label] }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody v-show="isNorms">
+    
+                                <tbody>
                                     <tr v-for="(item,index) in manyNormsList" :key="index">
-                                        <td v-for="(value,index1) in columns1" :key="index1" class="text-cut">
-                                             <span v-if="value.label == 'image'" @click="handleChangeFocus(2,index)"><!-- 多规格-图片 -->
+                                        <td v-for="(value,index1) in columns" :key="index1" class="text-cut">
+                                             <span v-if="value.label == 'image'" @click="handleChangeFocus(index)"><!-- 多规格-图片 -->
                                                 <div class="upload-table">
-                                                    <img v-if="item.image" :src="customForm.url + item.image" />
+                                                    <img v-if="item.image" :src="customForm.url + '?name=' + item.image" />
                                                     <div v-else>
                                                         <a-icon type="camera" />
                                                     </div>
@@ -137,6 +103,7 @@
                             </table>
                         </div>
                     </a-form-item>
+                    
     
                     <a-form-item label="商品状态" >
                         <a-radio-group v-decorator="['status',{ initialValue: customForm.status }]">
@@ -187,16 +154,14 @@
                                                 <a-button @click="editText(3,item,index)">取消</a-button>
                                             </div>
                                             <div v-if="item.status == 2 && item.focus" class="fixed radius-xs">
-                                                
                                                 <span v-if="phoneList.length > 1 && index > 0" @click="moveText('top',index)">上移</span>
                                                 <span v-if="phoneList.length > 1 && index < phoneList.length-1" @click="moveText('bottom',index)">下移</span>
-                                                
                                                 <span @click="editText(1,item,index)">编辑</span>
                                                 <span @click="deleteText(index)">删除</span>
                                             </div>
                                         </div>
                                         <div v-else class="cursor radius-xs text-center">
-                                            <img :src="customForm.url + item.text" @click="textChange(index,item)" />
+                                            <img :src="customForm.url + '?name=' + item.text" @click="textChange(index,item)" />
                                             <div class="imgMongolia" :class="{ imgBlack: item.focus }" ></div>
                                             <div v-if="item.focus" class="fixed radius-xs">
                                                 <span v-if="phoneList.length > 1 && index > 0" @click="moveText('top',index)">上移</span>
@@ -208,7 +173,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div class="footer">
                                     <span @click="imgChange(1)">
                                         <a-icon type="picture" class="icon"/><br/>图片
@@ -218,16 +182,14 @@
                             </div>
                         </div>
                     </a-form-item>
-                    
                 </div>
-    
-    
+                
                 <a-form-item :wrapper-col="{ span: 16, offset: 6 }" class="subButton" >
-                    <a-button type="primary" v-if="tabsKey == 'tabs2'" v-banClick="" @click="submitForm($event)" class="margin-right-sm">
+                    <a-button type="primary" v-show="tabsKey == 'tabs2'" v-banClick="" @click="submitForm($event)" class="margin-right-sm">
                         <a-spin v-show="this.$store.state.loading"/>
                         {{ this.$store.state.loading ? "正在保存中" : "马上保存" }}
                     </a-button>
-                    <a-button type="primary" v-if="tabsKey == 'tabs1'" @click="nextTab()" class="margin-right-sm">下一步</a-button>
+                    <a-button type="primary" v-show="tabsKey == 'tabs1'" @click="nextTab()" class="margin-right-sm">下一步</a-button>
                     <a-button @click="cancelTab()" >取消</a-button>
                 </a-form-item>
             </a-form>
@@ -238,17 +200,16 @@
 </template>
 
 <script>
-    import { ProductListAPI,ProductCategoryListAPI,ProductKindListAPI,ProductTagListAPI,AddProductAPI,EditProductAPI } from '../../../config/api'
+    import { ProductListAPI,ProductCategoryListAPI,ProductKindListAPI,ProductTagListAPI,AddProductAPI,EditProductAPI,ImagesAPI,GetImageApi } from '../../../config/api'
     
-    import Menu from '../../../config/menu'
-    import {Warning} from "../../../common/mixin/Warning";  //公共类-警告
-    import {Goods} from "../../../common/mixin/EditGoods";  //公共类-商品详情
+    import { Warning } from "../../../common/mixin/Warning";  //公共类-警告
+    import { Goods,SpecsParam } from "../../../common/mixin/EditGoods";  //公共类-商品详情
     import TextareaType from '../../common/Textarea'      //文本框
     import imagesLibrary from '../../image/Index'   //图片库
 
     import { mapState } from 'vuex'
     export default {
-        mixins: [Warning,Goods],
+        mixins: [Warning,Goods,SpecsParam],
         name: "Edit",
         data() {
             return {
@@ -259,7 +220,7 @@
                 wrapperCol: { span: 16 },
                 /* 数据 */
                 customForm:{
-                    url:'https://img01.****.com/v1/img/',     //图片路径
+                    url: GetImageApi,     //图片路径
                     category_id: [],  //商品分类
                     kind_id: '',   //商品类型
                     name: '',  //商品名称
@@ -289,8 +250,11 @@
                 imageType:{
                     status: 1,     //状态(1商品轮播图片)
                     type: 2,       //上传图片状态1单品，2批量
-                    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',     //图片上传接口
+                    action: ImagesAPI,     //图片上传接口
                 },
+    
+                kindList:[],   //商品类型列表
+                labelList:[],   //商品标签列表
             }
         },
         created () {
@@ -318,12 +282,33 @@
             TextareaType,imagesLibrary
         },
         methods: {
+            /* 规格图片-图片库打开 */
+            handleChangeFocus(index){
+                this.imageType = {
+                    status: 2,     //状态(1商品轮播图，2商品规格图片)
+                    type: 1,       //上传图片状态1单品，2批量
+                    index: index,     //key键
+                    action: ImagesAPI,     //图片上传接口
+                };
+                this.$store.state.model.editType = true;
+            },
             /* 轮播图片--图片库打开 */
             imageChange(){
                 this.imageType = {
                     status: 1,     //状态(1商品轮播图片)
                     type: 2,       //上传图片状态1单品，2批量
-                    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',     //图片上传接口
+                    action: ImagesAPI,     //图片上传接口
+                };
+                this.$store.state.model.editType = true;
+            },
+            /* 手机端描述-图片库打开 */
+            imgChange(type){
+                console.log("图片1上传或2替换:",type)
+                this.imageType = {
+                    status: 3,     //状态(1商品轮播图，2商品规格图片，3手机端描述)
+                    type: 1,       //上传图片状态1单品，2批量
+                    phoneType: type,  //手机端描述类型(1上传或2替换)
+                    action: ImagesAPI,     //图片上传接口
                 };
                 this.$store.state.model.editType = true;
             },
@@ -343,13 +328,9 @@
                         break;
                     case 2:   //商品规格图片
                         let image_id = list.list ? list.list[0].image_id:'';
-                    
+        
                         console.log('商品规格图片',list,image_id);
-                        if(this.imageType.specType == 1){   //单规格
-                            this.oneNormsList[0].image = image_id;
-                        } else {    //多规格
-                            this.manyNormsList[this.imageType.index].image = image_id;
-                        }
+                        this.manyNormsList[this.imageType.index].image = image_id;
                         break;
                     case 3:
                         let str = list.list ? list.list[0].image_id:'';
@@ -369,18 +350,16 @@
                         
                         break;
                 }
-                
-                console.log(this.carousel);
-                
             },
-            
             
             /* tabs切换页 */
             callback(key){
+                console.log('切换:',key);
                 this.tabsKey = key;
             },
             /* 下一个 */
             nextTab(){
+                console.log('下一个');
                 this.tabsKey = 'tabs2';
             },
             /* 取消 */
@@ -389,7 +368,6 @@
             },
             /* 提交 */
             submitForm(event){
-                let n = 1;
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         /* 商品分类 */
@@ -410,18 +388,16 @@
     
                         let list = [];
                         /* 商品规格 2多规格，1单规格 */
-                        if(values.spec_type == 1){
-                            this.oneNormsList[0].spec_value_id = [];
-                            let one = this.oneNormsList[0];
-                            for (let i in one){
+                        values.spec_type = '2';
+                        for (let item of this.manyNormsList){
+                            for (let i in item) {
                                 if(i == 'spec_value_id'){
                                     continue;
                                 }
                                 if(i == 'image'){
-                                    one[i] = one[i]?one[i]:'sun54654sd6f4ds65f3ew';
+                                    item[i] = item[i]?item[i]:'sun54654sd6f4ds65f3ew';
                                 }
-                                let key = one[i] = this.validate.leftRightBlank(one[i].toString());
-                        
+                                let key = item[i] = this.validate.leftRightBlank(item[i].toString());
                                 let name = '';
                                 switch (i) {
                                 /* case 'image':
@@ -437,73 +413,37 @@
                                         name = '库存';
                                         break;
                                 }
-                                if(name.length > 0 && (!this.validate.isBlank(key) || key == 0)){
-                                    this.warningType('商品'+ name +'数据不能为空或零！');
+                                if (name.length > 0 && (!this.validate.isBlank(key) || key == 0)) {
+                                    this.warningType('商品' + name + '数据不能为空或零！');
                                     return false;
                                 }
                             }
-                            for (let i in one){
-                                if(i == 'price' || i=='old_price' || i=='cost_price' || i=='weight' || i=='volume' || i == 'stock'|| i == 'product_spec_id'){
-                                    one[i] = parseFloat(one[i]);
+                            let str = {
+                                'image': item.image?item.image:'sun54654sd6f4ds65f3ew',
+                                'price': parseFloat(item.price),
+                                'cost_price': parseFloat(item.cost_price),
+                                'old_price': parseFloat(item.old_price),
+                                'stock': parseFloat(item.stock),
+                                'sku': item.sku,
+                                'weight': parseFloat(item.weight),
+                                'volume': parseFloat(item.volume),
+                                'spec_value_id': [],
+                                'product_spec_id': item.product_spec_id?parseFloat(item.product_spec_id):parseFloat(0),
+                            };
+                            for (let value of this.normsDataList){
+                                if(item[value.parent_id] == value.title){
+                                    str.spec_value_id.push(value.id);
                                 }
                             }
-                            list = this.oneNormsList;
-                        } else {
-                            for (let item of this.manyNormsList){
-                                for (let i in item) {
-                                    if(i == 'spec_value_id'){
-                                        continue;
-                                    }
-                                    if(i == 'image'){
-                                        item[i] = item[i]?item[i]:'sun54654sd6f4ds65f3ew';
-                                    }
-                                    let key = item[i] = this.validate.leftRightBlank(item[i].toString());
-                                    let name = '';
-                                    switch (i) {
-                                    /* case 'image':
-                                         name = '图片';
-                                         break;*/
-                                        case 'price':
-                                            name = '售价';
-                                            break;
-                                        case 'old_price':
-                                            name = '原价';
-                                            break;
-                                        case 'stock':
-                                            name = '库存';
-                                            break;
-                                    }
-                                    if (name.length > 0 && (!this.validate.isBlank(key) || key == 0)) {
-                                        this.warningType('商品' + name + '数据不能为空或零！');
-                                        return false;
-                                    }
-                                }
-                                let str = {
-                                    'image': item.image?item.image:'sun54654sd6f4ds65f3ew',
-                                    'price': parseFloat(item.price),
-                                    'cost_price': parseFloat(item.cost_price),
-                                    'old_price': parseFloat(item.old_price),
-                                    'stock': parseFloat(item.stock),
-                                    'sku': item.sku,
-                                    'weight': parseFloat(item.weight),
-                                    'volume': parseFloat(item.volume),
-                                    'spec_value_id': [],
-                                    'product_spec_id': item.product_spec_id?parseFloat(item.product_spec_id):parseFloat(0),
-                                };
-                                for (let value of this.normsDataList){
-                                    if(item[value.parent_id] == value.title){
-                                        str.spec_value_id.push(value.id);
-                                    }
-                                }
-                                list.push(str);
-                            }
+                            list.push(str);
                         }
+                        
                         if(list.length == 0){
                             this.warningType("请选择商品规格");
                             return false;
                         }
                         values.spec = JSON.stringify(list);
-                        
+    
                         /* 商品参数 */
                         let paramter = [];
                         if(this.paramterData.length > 0) {
@@ -570,20 +510,20 @@
                                 }
                             }
                         }).catch(error =>{
+                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                             this.$store.state.loading = false;
                         });
                     } else {
-                        if(n == 1){
-                            for (let i in err){
-                                this.warningType(err[i]['errors'][0].message);
-                                console.log(err[i]['errors'][0].message)
-                                return false;
-                            }
+                        for (let i in err){
+                            this.warningType(err[i]['errors'][0].message);
+                            break;
                         }
-                        n++;
+                        let _this = this;
+                        setTimeout(function() {
+                            _this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
+                        },1000);
                     }
                 });
-        
             },
             
             /* 初始化 */
@@ -595,7 +535,7 @@
                 if(this.$route.params.id > 0){
                     this.loadData();  //商品详情
                 } else {
-                    this.oneNormsList.push(Menu.Columns7);   //初始化单规格列表
+                    this.gitSpecs();
                 }
                 
                 this.dataLoading = false;
@@ -684,13 +624,12 @@
                 this.$http.get(ProductListAPI, {params}).then(resp => {
                     if (resp.data.code == 1) {
                         let list = resp.data.data;
-                      
                         if(!list.products){
                             return false;
                         }
                         this.normsDataList = [];
                         let product = list.products[0];
-                        this.customForm.category_id =  [29,32];  //商品分类
+                        this.customForm.category_id =  product.category_path.map(Number);  //商品分类
                         
                         let kind_id = '';
                         for (let item of this.kindList){
@@ -720,48 +659,46 @@
                         
                         /* 商品规格 */
                         this.customForm.spec_type = product.spec_type.toString();    //商品规格
-                        this.isNorms = product.spec_type==1?false:true;   //多规格是否展示
-                        if(this.isNorms) {   //多规格
-                            
-                            let spec = product.spec?product.spec:[];
-                            let specFocus = [];
-                            for (let item of spec) {
-                                specFocus = specFocus.concat(item.spec_value_id);
-                            }
-                            specFocus = Array.from(new Set(specFocus));
-                            
-                            /* 计算商品规格选中 */
-                            for (let i in this.normsData){
-                                for (let t in this.normsData[i]){
-                                    if(specFocus.includes(this.normsData[i][t].id)){
-                                        this.checkChange(i,t);
-                                    }
+                       
+                        let spec = product.spec?product.spec:[];
+                        let specFocus = [];
+                        for (let item of spec) {
+                            specFocus = specFocus.concat(item.spec_value_id);
+                        }
+                        specFocus = Array.from(new Set(specFocus));
+                        
+                        /* 计算商品规格选中 */
+                        for (let i in this.normsData){
+                            for (let t in this.normsData[i]){
+                                if(specFocus.includes(this.normsData[i][t].id)){
+                                    this.checkChange(i,t);
                                 }
                             }
-                            
-                           // console.log("多规格-商家列表：",JSON.stringify(this.normsData),JSON.stringify(this.normsDataList),JSON.stringify(this.manyNormsList),JSON.stringify(spec));
-                            /* 计算商品规格列表--数据 */
-                            let many = [];
+                        }
+                        
+                       // console.log("多规格-商家列表：",JSON.stringify(this.normsData),JSON.stringify(this.normsDataList),JSON.stringify(this.manyNormsList),JSON.stringify(spec));
+                        /* 计算商品规格列表--数据 */
+                        let many = [];
+                        console.log(spec[0].spec_value_id,spec[0].spec_value_id[0]);
+                        if(spec.length == 1 && spec[0].spec_value_id[0] == 0){
+                            many.push(spec[0]);
+                        } else {
                             for (let value of spec) {
-                                for (let item of this.manyNormsList){
+                                for (let item of this.manyNormsList) {
                                     let sen = value.spec_value_id.reduce((num, value) => {
-                                        if(item.spec_value_id.includes(value)){
+                                        if (item.spec_value_id.includes(value)) {
                                             num++;
                                         }
                                         return num;
                                     }, 0);
-                                    if(item.spec_value_id.length == sen){
-                                        let str = Object.assign(item,value);
+                                    if (item.spec_value_id.length == sen) {
+                                        let str = Object.assign(item, value);
                                         many.push(str);
                                     }
                                 }
                             }
-                            this.manyNormsList = many;
-                        } else {   //单规格
-                            this.oneNormsList = [];
-                            let spec = product.spec[0];
-                            this.oneNormsList.push(spec);
                         }
+                        this.manyNormsList = many;
                         
                         /* 商品参数 */
                         let params = product.param;
@@ -953,21 +890,22 @@
     /* 轮播图--start */
     .carousel{
         width: 100%;
-        height: 100px;
         display: grid;
         grid-template-columns: repeat(5,100px);
-        column-gap: 10px;
+        gap: 8px;
     }
     .carousel .img-album{
         padding: 4px;
         position: relative;
         width: 104px;
         height: 104px;
-        border: 1px dashed #c5b2b2;
+        border-radius: 4px;
+        border: 1px dashed #d6c5c5;
     }
     .carousel .img-album img{
         width: 100%;
         height: 100%;
+        border-radius: 4px;
     }
     .carousel .img-album .first{
         position: absolute;

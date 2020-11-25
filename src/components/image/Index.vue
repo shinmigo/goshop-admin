@@ -6,7 +6,7 @@
                     <a-form-item label="选择图片" :label-col="labelCol" :wrapper-col="wrapperCol" style="margin-bottom: 0" required>
                         <div v-if="imageType.type == '1'" class="upload-one">
                             <div class="magnifier">
-                                <a-upload name="avatar" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" :action="imageType.action"
+                                <a-upload name="my_file" list-type="picture-card" class="avatar-uploader" :show-upload-list="false" :action="imageType.action"
                                           :preview-file="previewFile"
                                           :before-upload="beforeUpload" @change="handleChange">
                                     <img :src="imageOne.image_path" v-if="imageOne.image_path" alt="avatar" class="img"/>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div v-else class="upload-batch">
-                            <a-upload list-type="picture-card" :action="imageType.action" :file-list="fileList"
+                            <a-upload name="my_file" list-type="picture-card" :action="imageType.action" :file-list="fileList"
                                       :before-upload="beforeUpload" @change="handleChanges" @preview="handlePreview">
                                 <div v-if="fileList.length < 8">
                                     <a-icon type="plus"/>
@@ -36,6 +36,7 @@
                             </a-upload>
                         </div>
                     </a-form-item>
+                    <!--
                     <a-form-item label="设置标签" :label-col="labelCol" :wrapper-col="wrapperCol">
                         <a-select mode="tags" v-model="newImageTage" :token-separators="[' ']" :open="isOpen1" :filter-option="filterOption" @focus="imageFocus(1)"
                                   @search="imageFocus(1)" @blur="imageBlur(1)" @select="imageBlur(1)" @change="imageChange" class="imageSelect"
@@ -45,7 +46,7 @@
                             </a-select-option>
                         </a-select>
                     </a-form-item>
-                    
+                    -->
                     <div class="margin-button text-center bg-loading">
                         <a-button type="primary" @click.prevent="submitForm($event)" class="margin-right-df text-letter">
                             <a-spin v-show="this.$store.state.loading"/>
@@ -55,6 +56,7 @@
                     </div>
                 </a-form>
             </a-tab-pane>
+            <!--
             <a-tab-pane key="2" tab="从图片库选择图片">
                 <a-form :form="form" :label-col="labelCol" :wrapper-col="wrapperCol">
                     <a-form-item label="图片标签" :label-col="labelCol" :wrapper-col="wrapperCol">
@@ -84,6 +86,7 @@
                     </div>
                 </a-form>
             </a-tab-pane>
+            -->
         </a-tabs>
         
         <!-- 放大镜 -->
@@ -95,7 +98,7 @@
 </template>
 
 <script>
-    import {} from '../../config/api'
+    import { GetImageApi } from '../../config/api'
     import {Warning} from "../../common/mixin/Warning"
     
     function getBase64(img, callback) {
@@ -178,15 +181,7 @@
                 let str = [
                     {uid: '1', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
                     {uid: '2', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '3', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '4', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '5', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '6', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '7', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '8', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '9', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                    {uid: '10', url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', isFocus: false},
-                ];
+                ]
                 
                 this.Loadings = true;
                 let _this = this;
@@ -271,7 +266,6 @@
                 this.isOpen2 = true;
             },
             
-            
             //单图片-放大镜-图片预览
             async previewFile(file) {
                 if (!file) {
@@ -295,40 +289,42 @@
                 this.previewVisible = false;
             },
             
-            
             //多图片--后端返回
             handleChanges({fileList}) {
                 console.log("fileList：：", fileList);
                 this.fileList = fileList;
                 
                 let n = fileList.length - 1;
+                console.log("：：",this.fileList);
                 if (fileList[n].status === 'error') {
                     this.warningType('上传失败！');
                     this.fileList.splice(n, 1);
-                    this.loading = false;
                 }
+                this.loading = false;
             },
             //单图片--后端返回
             handleChange(info) {
-                console.log("info：：", info);
-                
+                /* 上传中 */
                 if (info.file.status === 'uploading') {
                     this.loading = true;
                     return;
                 }
                 if (info.file.status === 'done') {
-                    // Get this url from response in real world.
-                    getBase64(info.file.originFileObj, imageUrl => {  //把上传的图片进行Base64转换
-                        console.log("imageUrl::", imageUrl);
-                        this.loading = false;
-                    });
-                    this.imageOne.image_id = 'jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ';
-                    this.imageOne.image_path = info.file.response.url;
+    
+                    console.log("info：：", info.file.response);
+                    let resp = info.file.response;
+                    if(resp.code == 1){
+                        let url = GetImageApi +"?name="+ resp.data;
+                        this.imageOne.image_id = resp.data;
+                        this.imageOne.image_path = url;
+                    } else {
+                        this.warningType(resp.message);
+                    }
                 }
                 if (info.file.status === 'error') {
                     this.warningType('上传失败！');
-                    this.loading = false;
                 }
+                this.loading = false;
             },
             //验证拦截
             beforeUpload(file) {
@@ -345,7 +341,6 @@
             
             //提交
             submitForm(event) {
-                
                 let list = [];
                 let params = {};
                 if (this.tabKey == 1) { //本地选择图片
@@ -365,10 +360,12 @@
                             return false;
                         }
                         for (let item of this.fileList) {
-                            let str = {};
-                            str.image_id = 'jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
-                            str.image_path = item.response.url;
-                            list.push(str);
+                            let img = {};
+                            let resp = item.response.data;
+                            let url = GetImageApi +"?name="+ resp;
+                            img.image_id = resp;
+                            img.image_path = url;
+                            list.push(img);
                         }
                         params.image = list;
                     }
@@ -398,16 +395,12 @@
                 console.log('提交');
                 this.$store.state.loading = true;
                 let tickling = {};
-                tickling.status = this.imageType.status;   //从哪里来的(1商品轮播图)
+                tickling.status = this.imageType.status?this.imageType.status:1;   //从哪里来的
                 tickling.list = list;                      //图片选中
+                this.$store.state.loading = false;
                 this.$emit('refresh', tickling);
-                
-                let _this = this;
-                setTimeout(function () {
-                    _this.$store.state.loading = false;
-                    _this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
-                    _this.ruleCancel();
-                }, 2000);
+                this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
+                this.ruleCancel();
             },
             //取消
             ruleCancel() {

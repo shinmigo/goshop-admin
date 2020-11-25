@@ -125,9 +125,16 @@ const menu = {
         },
         {
             name: '商城设置',
-            key: 'settings',
             icon: 'setting',
-            url: '/settings/index'
+            children: [
+                {
+                    name: '广告管理',
+                    key: 'roles',
+                    icon: 'share-alt',
+                    url: '/settings/index',
+                }
+            ]
+            
         },
     ],
     
@@ -142,6 +149,17 @@ const menu = {
         { value: '', label: '全部' },
         { value: '1', label: '启用' },
         { value: '2', label: '禁用' },
+    ],
+    /* 广告位类型状态-banner、广告位 */
+    menuUp3:[
+        { value: '', label: '全部' },
+        { value: '1', label: 'banner' },
+        { value: '2', label: '广告位' },
+    ],
+    /* 广告位类型-banner、广告位 */
+    menuUp4:[
+        { value: '1', label: 'banner' },
+        { value: '2', label: '广告位' },
     ],
     /* 商品列表-头部 */
     Columns: [
@@ -204,20 +222,10 @@ const menu = {
         {title: '产品编号',label:'sku',need:false},
         {title: '重量',label:'weight',need:false},
         {title: '体积',label:'volume',need:false},
-    ],
-    Columns16: [
-        {title: '图片',label:'image',need: true},
-        {title: "售价",label:'price',need:true},
-        {title: "成本价",label:'cost_price',need:false},
-        {title: '原价',label:'old_price',need:true},
-        {title: '库存',label:'stock',need:true},
-        {title: '产品编号',label:'sku',need:false},
-        {title: '重量',label:'weight',need:false},
-        {title: '体积',label:'volume',need:false},
         {title: '操作',label:'action',need:false},
     ],
     /* 商品详情页--规格 */
-    Columns7:{'image':'6dc289dfcf3e26cbe793c6d69ab533e8-w300.jpg','price':'','cost_price':'','old_price':'','stock':'','sku':'','weight':'','volume':''},
+    Columns7:{'image':'','price':'','cost_price':'','old_price':'','stock':'','sku':'','weight':'','volume':''},
     
     /* 会员列表-头部 */
     Columns8: [
@@ -297,6 +305,16 @@ const menu = {
         {title: '名称', dataIndex: 'nickname' },
         {title: "运费", dataIndex: 'mobile' },
         {title: "状态", dataIndex: 'status',scopedSlots: { customRender: 'status' }  },
+        {title: "创建日期", dataIndex: 'updated_at' },
+    ],
+    /* 广告位列表-头部 */
+    Columns16: [
+        {title: "操作", dataIndex: 'action', scopedSlots: { customRender: 'action' } },
+        {title: "编号ID", dataIndex: 'id' },
+        {title: '广告位名称', dataIndex: 'tag_name' },
+        {title: "类型", dataIndex: 'ele_type',scopedSlots: { customRender: 'type' } },
+        {title: "状态", dataIndex: 'status',scopedSlots: { customRender: 'status' }  },
+        {title: "排序", dataIndex: 'sort' },
         {title: "创建日期", dataIndex: 'updated_at' },
     ],
     
