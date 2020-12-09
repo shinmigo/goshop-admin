@@ -127,7 +127,9 @@
                         if(!list){
                             this.warningType('请增加订单状态');
                         }
-                        for(let item of list){
+                        let m = '';
+                        for(let i in list){
+                            let item = list[i];
                             let str = {
                                 value: item.order_status,
                                 num: item.count
@@ -154,6 +156,10 @@
                                 case 7:
                                     str.label = '取消';
                                     break;
+                                default:
+                                    m = i;
+                                    str.value = 0;
+                                    str.label = '全部';
                             }
                             this.tabsList.push(str);
                         }

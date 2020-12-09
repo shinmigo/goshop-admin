@@ -158,7 +158,9 @@
             submitForm() {
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                       // console.log(values);
+                        // console.log(values);
+                        console.log(this.ruleForm.status);
+                        return false;
                         this.$store.state.loading = true;
                         
                         let parent = values.parent_id;

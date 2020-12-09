@@ -378,6 +378,7 @@
                         if(!values.short_description){
                             this.textarea.isEmpty = true;
                             this.warningType("请输入商品简介");
+                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                             return false;
                         }
                         
@@ -395,14 +396,14 @@
                                     continue;
                                 }
                                 if(i == 'image'){
-                                    item[i] = item[i]?item[i]:'sun54654sd6f4ds65f3ew';
+                                    item[i] = item[i]?item[i]:'';
                                 }
                                 let key = item[i] = this.validate.leftRightBlank(item[i].toString());
                                 let name = '';
                                 switch (i) {
-                                /* case 'image':
+                                 case 'image':
                                      name = '图片';
-                                     break;*/
+                                     break;
                                     case 'price':
                                         name = '售价';
                                         break;
@@ -415,6 +416,7 @@
                                 }
                                 if (name.length > 0 && (!this.validate.isBlank(key) || key == 0)) {
                                     this.warningType('商品' + name + '数据不能为空或零！');
+                                    this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                                     return false;
                                 }
                             }
@@ -440,6 +442,7 @@
                         
                         if(list.length == 0){
                             this.warningType("请选择商品规格");
+                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                             return false;
                         }
                         values.spec = JSON.stringify(list);
@@ -456,6 +459,7 @@
                                 } else if (item.type == 3) {  //复选框
                                     if(item.value && item.value.length == 0){
                                         this.warningType("请选择商品参数值");
+                                        this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                                         return false;
                                     }
                                     for (let n of item.value) {
@@ -469,11 +473,13 @@
                             
                             if (paramter.length == 0) {
                                 this.warningType("请选择商品参数");
+                                this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                                 return false;
                             }
                             for (let item of paramter) {
                                 if (!this.validate.leftRightBlank(item.value.toString())) {
                                     this.warningType("请选择商品参数值");
+                                    this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                                     return false;
                                 }
                             }
@@ -501,27 +507,26 @@
     
                         this.$store.state.loading = true;
                         this.$http.post(url, this.$qs.stringify(values)).then(resp => {
+                            this.$store.state.loading = false;
+                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
+                            
                             if (resp.data.code == 1) {
                                 this.successType(text);
-                                this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
-                                this.$store.state.loading = false;
                                 if(this.$route.params.id == 0){
                                     this.$router.push('/goods/index')
                                 }
                             }
                         }).catch(error =>{
-                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                             this.$store.state.loading = false;
+                            this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                         });
                     } else {
                         for (let i in err){
                             this.warningType(err[i]['errors'][0].message);
                             break;
                         }
-                        let _this = this;
-                        setTimeout(function() {
-                            _this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
-                        },1000);
+                        this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
+                        this.$store.state.loading = false;
                     }
                 });
             },

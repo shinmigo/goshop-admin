@@ -399,7 +399,6 @@
                 tickling.list = list;                      //图片选中
                 this.$store.state.loading = false;
                 this.$emit('refresh', tickling);
-                this.onlyRead(event);   //防止按钮多次点击--解除禁止点击事件
                 this.ruleCancel();
             },
             //取消

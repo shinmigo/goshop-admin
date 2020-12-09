@@ -26,7 +26,7 @@
                     <a-input v-model="ruleForm.email" paramsName="email" class="extent" disabled/>
                 </a-form-item>
                 <a-form-item label="状态">
-                    <a-switch :checked="ruleForm.status" paramsName="status" checked-children="开" class="switch" un-checked-children="关" disabled/>
+                    <a-switch :checked="ruleForm.status" paramsName="status" class="switch" checked-children="启用" un-checked-children="禁用" disabled/>
                 </a-form-item>
                 <a-form-item label="最后登录时间">
                     <a-input v-model="ruleForm.last_login_time" paramsName="last_login_time" class="extent" disabled/>
@@ -57,6 +57,7 @@
                 
                 /* 性别列表 */
                 sexList: [
+                    {value: '0', label: '未知'},
                     {value: '1', label: '男'},
                     {value: '2', label: '女'},
                 ],
@@ -91,6 +92,10 @@
                     if (resp.data.code == 1) {
                         let list = resp.data.data;
                         for (let i in list){
+                            if(i == 'status'){
+                                this.ruleForm[i] = list[i]==1?true:false;
+                                continue;
+                            }
                             this.ruleForm[i] = list[i].toString();
                         }
                     }

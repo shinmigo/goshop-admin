@@ -180,7 +180,6 @@
                     this.pagination.pageSize = pramas.pageSize;
                 }
                 
-    
                 this.dataLoading = true;
                 this.dataList = indexData.index;
                 this.pagination.total = indexData.index.length;
