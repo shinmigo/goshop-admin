@@ -11,7 +11,6 @@
             </span>
         </a-table>
         
-        
         <div class="text-center bg-loading">
             <a-button type="primary" class="margin-right-df text-letter">
                 <a-spin v-show="this.$store.state.loading"/>
